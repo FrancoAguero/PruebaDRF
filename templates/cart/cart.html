@@ -1,0 +1,47 @@
+{% extends 'base.html' %}
+
+{% block head_content %}
+    <title>Cart Shop</title>
+{% endblock  %}
+
+{% block container %}
+    <div class="row mt-5">
+        {% if queryset.cart%}
+            {% for product in queryset.cart %}
+                <div class="col-lg-4 col-md-6 mb-4">
+                    <div class="card h-100">
+                        <img class="card-img-top" src="http://placehold.it/700x400" alt="">
+                        <div class="card-body">
+                            <h4 class="card-title">
+                                <a href="#{{product.name}}">{{ product.name }}</a>
+                            </h4>
+                            <h5>${{ product.price }} - (Quantity: {{product.quantity}})</h5>
+                            <p class="card-text">{{ product.description }}</p>
+                        </div>
+                        <div class="card-footer">
+                            <form action="{% url 'shop:delete_cart' product.id %}" method='POST'>
+                                {% csrf_token %}
+                                <button class='btn btn-danger btn-dark'> delete </button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        {% else %}
+            <div class="container-fluid">
+                <div class="row">
+                    <h1 class="col-4 offset-4">This cart is Empty</h1>
+                </div>
+            </div>
+        {% endif %}
+    </div>
+    {% if queryset.cart %}
+        <div class="row">
+            <div class="col-4"></div>
+            <form class="col" method="POST" action="{% url 'shop:buy' request.user.id %}">
+                {% csrf_token %}
+                <button class="btn btn-danger col-4 m-3"> Buy </button>
+            </form>
+        </div>
+    {% endif %}
+{% endblock  %}
