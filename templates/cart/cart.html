@@ -28,20 +28,17 @@
                 </div>
             {% endfor %}
         {% else %}
-            <div class="container-fluid">
-                <div class="row">
-                    <h1 class="col-4 offset-4">This cart is Empty</h1>
-                </div>
-            </div>
+             <h1 class="col text-center" style="height: 74vh;">This cart is Empty</h1>
         {% endif %}
     </div>
     {% if queryset.cart %}
         <div class="row">
-            <div class="col-4"></div>
-            <form class="col" method="POST" action="{% url 'shop:buy' request.user.id %}">
-                {% csrf_token %}
-                <button class="btn btn-danger col-4 m-3"> Buy </button>
-            </form>
+            <div class="col pt-3 pb-3">
+                <form method="POST" action="{% url 'shop:buy' request.user.id %}">
+                    {% csrf_token %}
+                    <button class="btn btn-danger col-8 offset-2"> Buy </button>
+                </form>
+            </div>
         </div>
-    {% endif %}
+   {% endif %}
 {% endblock  %}
